@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/hello")
 public class HelloController {
 
-    @Autowired
-    public HelloService helloService;
+    private final HelloService helloService;
+
+    public HelloController(HelloService helloService) {
+        this.helloService = helloService;
+    }
 
     @GetMapping
     public String getHello() {

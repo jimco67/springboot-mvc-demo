@@ -11,6 +11,6 @@ public class HelloService {
     }
 
     public String respondTo(HelloMessage message) {
-        return "Hello, " + message.getName() + "!";
+        return "Hello, " + message.name() + "!";
     }
 }
