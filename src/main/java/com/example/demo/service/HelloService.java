@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.HelloMessage;
+import com.example.demo.domain.HelloMessage;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +11,6 @@ public class HelloService {
     }
 
     public String respondTo(HelloMessage message) {
-        return "Hello, " + message.name() + "!";
+        return "Hello, " + message.getName() + "!";
     }
 }

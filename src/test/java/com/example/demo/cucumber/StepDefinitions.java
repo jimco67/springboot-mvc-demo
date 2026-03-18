@@ -1,25 +1,45 @@
 package com.example.demo.cucumber;
 
+import com.example.demo.domain.HelloMessage;
+import com.example.demo.service.HelloService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.Assertions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class StepDefinitions {
 
-    private String greeting;
+    @Autowired
+    private HelloService helloService;
 
-    @Given("I have a greeting service")
+    private String greeting;
+    private HelloMessage message;
+
+    @Given("Je suis arrivé sur Spring")
     public void i_have_a_greeting_service() {
         // Initialization if needed
     }
 
-    @When("I ask for a greeting")
+    @When("Le service me dit bonjour")
     public void i_ask_for_a_greeting() {
-        greeting = "Hello from Cucumber!";
+        greeting = helloService.sayHello();
     }
 
-    @Then("I should receive {string}")
+    @When("J'envoie le message {string} au service")
+    public void i_send_a_message_to_service(String sendingMessage) {
+        message = new HelloMessage.HelloBuilder().name(sendingMessage).build();
+        greeting = helloService.respondTo(message);
+    }
+
+    @Then("Le service devrait me saluer en réponse à mon message")
+    public void i_should_receive() {
+        Assertions.assertThat(greeting).isEqualTo("Hello, " + message.getName() + "!");
+    }
+
+    @Then("Je devrais recevoir {string}")
     public void i_should_receive(String expectedGreeting) {
         Assertions.assertThat(greeting).isEqualTo(expectedGreeting);
     }
